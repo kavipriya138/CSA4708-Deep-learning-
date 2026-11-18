@@ -1,0 +1,62 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+y = np.array([[0], [1], [1], [0]])
+
+np.random.seed(42)
+
+W1 = np.random.randn(2, 4)
+W2 = np.random.randn(4, 1)
+
+b1 = np.zeros((1, 4))
+b2 = np.zeros((1, 1))
+
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+learning_rate = 1
+losses = []
+
+for epoch in range(10000):
+
+    # Forward propagation
+    hidden = sigmoid(np.dot(X, W1) + b1)
+    output = sigmoid(np.dot(hidden, W2) + b2)
+
+    loss = np.mean((output-y)**2)
+    losses.append(loss)
+
+    # Backpropagation
+    d_output = 2*(output-y)*output*(1-output)/len(X)
+
+    dW2 = np.dot(hidden.T, d_output)
+    db2 = np.sum(d_output, axis=0, keepdims=True)
+
+    d_hidden = np.dot(d_output, W2.T)*hidden*(1-hidden)
+
+    dW1 = np.dot(X.T, d_hidden)
+    db1 = np.sum(d_hidden, axis=0, keepdims=True)
+
+    # Update weights
+    W2 -= learning_rate*dW2
+    b2 -= learning_rate*db2
+
+    W1 -= learning_rate*dW1
+    b1 -= learning_rate*db1
+
+print("Predictions:")
+print(np.round(output, 3))
+
+plt.plot(losses)
+plt.title("Backpropagation Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.grid()
+plt.show()
