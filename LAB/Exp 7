@@ -1,0 +1,46 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+y = np.array([0, 0, 0, 1])
+
+weights = np.zeros(2)
+bias = 0
+learning_rate = 0.1
+
+# Perceptron training
+for epoch in range(20):
+    for i in range(len(X)):
+        output = np.dot(X[i], weights) + bias
+        prediction = 1 if output >= 1 else 0
+
+        error = y[i] - prediction
+
+        weights += learning_rate * error * X[i]
+        bias += learning_rate * error
+
+print("Weights:", weights)
+print("Bias:", bias)
+
+# Predictions
+predictions = []
+
+for x in X:
+    output = np.dot(x, weights) + bias
+    predictions.append(1 if output >= 1 else 0)
+
+print("Predictions:", predictions)
+print("Actual:", y)
+
+plt.scatter(X[:, 0], X[:, 1], c=y)
+plt.title("Perceptron AND Gate")
+plt.xlabel("Input 1")
+plt.ylabel("Input 2")
+plt.grid()
+plt.show()
