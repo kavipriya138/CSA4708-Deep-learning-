@@ -1,0 +1,24 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate dataset
+np.random.seed(42)
+X = np.random.randn(100, 2)
+
+# Covariance matrix
+cov_matrix = np.cov(X.T)
+print("Covariance Matrix:\n", cov_matrix)
+
+# Eigenvalues and eigenvectors
+eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+
+print("Eigenvalues:", eigenvalues)
+print("Eigenvectors:\n", eigenvectors)
+
+# Visualization
+plt.scatter(X[:, 0], X[:, 1])
+plt.title("Covariance Analysis")
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.grid()
+plt.show()
